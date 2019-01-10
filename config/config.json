@@ -1,0 +1,16 @@
+{
+    "development":{
+        "username": "root",
+        "password": "darksissy",
+        "database": "josselynBD",
+        "host": "localhost",
+        "dialect": "mysql"
+    },
+    "staging":{
+        "username": "root",
+        "password": "",
+        "database": "",
+        "host": "localhost",
+        "dialect": "mysql"
+    }
+}

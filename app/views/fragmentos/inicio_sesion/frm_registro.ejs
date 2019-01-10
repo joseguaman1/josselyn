@@ -1,0 +1,108 @@
+<script src="../js/jquery_validation.js"></script>
+<script src="../js/utiles.js"></script>
+<script>
+    $.validator.addMethod("cedula", function(value) {
+		return validarCedula(value);
+	}, 'Ingrese una cedula valida');
+
+    
+    $().ready(function () {
+        // validate the comment form when it is submitted
+
+
+        // validate signup form on keyup and submit
+        $("#registrate_m").validate({
+            rules: {
+                cedula: {
+                    required: true,
+                    number: true,
+                    cedula: true
+                },
+                clave: {
+                    required: true
+                    
+                },
+                apellidos: "required",
+                nombres: "required",
+                fono: "required",
+                direccion: "required",
+                correo: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                cedula: {required:"Ingrese su cedula",
+                        cedula: "Ingrese una cedula valida"}
+            }
+        });
+
+        // propose username by combining first- and lastname
+        /*$("#username").focus(function () {
+         var firstname = $("#firstname").val();
+         var lastname = $("#lastname").val();
+         if (firstname && lastname && !this.value) {
+         this.value = firstname + "." + lastname;
+         }
+         });*/
+
+        
+    });
+</script>
+<div class="col-md-12 col-xs-12 login_control">
+    
+<% if (error  != '') { %>
+        <div class="alert alert-danger">
+            <%- error %>
+        </div>
+        <% } %>  
+    <form class="login_control" id="registrate_m" method="POST" action="/josellyn/registro/guardar">
+        <div class="control">
+            <div class="label">Cedula: </div>
+            <input type="text" class="form-control" name="cedula" id="cedula"/>
+        </div>
+
+        <div class="control">
+            <div class="label">Apellidos: </div>
+            <input type="text" class="form-control" name="apellidos"/>
+        </div>
+
+        <div class="control">
+            <div class="label">Nombres: </div>
+            <input type="text" class="form-control" name="nombres"/>
+        </div>
+
+        <div class="control">
+            <div class="label">Telefono: </div>
+            <input type="text" class="form-control" name="fono"/>
+        </div>
+
+        
+
+        <div class="control">
+            <div class="label">Direccion: </div>
+            <textarea  class="form-control" name="direccion"></textarea>
+        </div>
+        
+        <div class="control">
+            <div class="label">Correo: </div>
+            <input type="email" class="form-control" name="correo"/>
+        </div>
+        
+        <div class="control">
+            <div class="label">Clave: </div>
+            <input type="password" class="form-control" name="clave"/>
+        </div>
+
+        <div align="center">
+            <button type="submit" class="btn btn-orange">Guardar</button>
+
+        </div>
+        <div align="center">
+            <a href="/">Principal</a>
+        </div>
+
+
+    </form>
+
+</div>
