@@ -17,9 +17,10 @@ module.exports = function (passport, cuenta, persona, rol) {
                     id: cuenta.id,
                     id_cuenta: cuenta.external_id,
                     id_persona: cuenta.persona.external_id,
-                    nombre: cuenta.persona.apellidos + " " + cuenta.persona.nombres,
+                    nombre: cuenta.persona.apellido + " " + cuenta.persona.nombre,
                     rol: cuenta.persona.rol.nombre
                 };
+                console.log(userinfo);
                 done(null, userinfo);
             } else {
                 done(cuenta.errors, null);
@@ -60,8 +61,8 @@ module.exports = function (passport, cuenta, persona, rol) {
                             if (rol) {
                                 var dataPersona =
                                         {
-                                            apellidos: req.body.apellidos,
-                                            nombres: req.body.nombres,
+                                            apellido: req.body.apellidos,
+                                            nombre: req.body.nombres,
                                             correo: email,
                                             cedula: req.body.cedula,
                                             telefono: req.body.fono,
@@ -144,7 +145,7 @@ module.exports = function (passport, cuenta, persona, rol) {
                     }
 
                     var userinfo = cuenta.get();
-                    console.log(userinfo);
+                    //console.log(userinfo);
                     return done(null, userinfo);
 
                 }).catch(function (err) {
