@@ -4,51 +4,60 @@ var passport = require('passport');
 
 var cuenta = require('../app/controllers/CuentaController');
 var cuentaController = new cuenta();
+
+var marca = require('../app/controllers/MarcaController');
+var marcaController = new marca();
 //you can include all your controllers
 
-app.get('/josselyn/administrador', function (req, res, next) {
-    
-    if(req.isAuthenticated()) {
-        res.render('plantilla_admin', 
-        {titulo: "Administracion", 
-            fragmento: 'fragmentos/frm_principal_admin', 
-            admin: req.user.nombre,
-            rol: req.user.rol
-        });
+var auth = function middleWare(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
     } else {
         req.flash('err_cred', 'Inicia sesion!!!');
         res.redirect('/josselyn/inicio_sesion');
     }
-    
+}
+
+app.get('/josselyn/administrador', auth, function (req, res, next) {
+
+    res.render('plantilla_admin',
+            {titulo: "Administracion",
+                fragmento: 'fragmentos/frm_principal_admin',
+                admin: req.user.nombre,
+                rol: req.user.rol
+            });
+
 });
 
 app.get('/josselyn', function (req, res, next) {
-    
-    if(req.isAuthenticated()) {
-        res.render('plantilla_admin', 
-        {titulo: "Administracion", 
-            fragmento: 'fragmentos/frm_pricipal_admin', 
-            admin: req.user.nombre,
-            rol: req.user.rol
-        });
+
+    if (req.isAuthenticated()) {
+        res.redirect('/josselyn/administrador');
     } else {
         res.render('plantilla', {titulo: "Principal"});
     }
-    
+
 });
 
 app.get('/josselyn/inicio_sesion', cuentaController.verLogin);
 app.get('/josselyn/registro', cuentaController.verRegistro);
-app.post('/josselyn/registro/guardar', 
-passport.authenticate('local-signup', {successRedirect: '/josselyn/inicio_sesion',
-    failureRedirect: '/josselyn/registro', failureFlash: true}
-));
-app.post('/josselyn/inicio_sesion/iniciar', 
-passport.authenticate('local-signin', 
-{successRedirect: '/josselyn/administrador',
-    failureRedirect: '/josselyn/inicio_sesion', 
-    failureFlash: true}
-));
+app.post('/josselyn/registro/guardar',
+        passport.authenticate('local-signup', {successRedirect: '/josselyn/inicio_sesion',
+            failureRedirect: '/josselyn/registro', failureFlash: true}
+        ));
+app.post('/josselyn/inicio_sesion/iniciar',
+        passport.authenticate('local-signin',
+                {successRedirect: '/josselyn/administrador',
+                    failureRedirect: '/josselyn/inicio_sesion',
+                    failureFlash: true}
+        ));
+
+app.get('/josselyn/administrar/marca', auth, marcaController.verMarca);
+app.post('/josselyn/administrar/marca/guardar', auth, marcaController.guardar);
+app.post('/josselyn/administrar/marca/modificar', auth, marcaController.modificar);
+
+//administrar marcas
+
 
 //    app.get('/login', home.login);
 //    app.get('/signup', home.signup);

@@ -14,5 +14,11 @@ class CuentaController {
             error: req.flash("correo_repetido")
         });
     }
+    
+    cerrar(req, res) {
+        req.session.destroy();
+        res.redirect("/josselyn");
+    }
+    
 }
 module.exports = CuentaController;

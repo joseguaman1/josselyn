@@ -1,0 +1,126 @@
+<script src="../javascripts/jquery_validation.js"></script>
+<script>
+    var t = jQuery.noConflict();
+    t().ready(function () {
+        // validate signup form on keyup and submit
+        t("#formulario").validate({
+            rules: {
+                nombre: {
+                    required: true,
+                    minlength: 3
+                }
+            },
+            messages: {
+                nombre: {
+                    required: "Ingrese el nombre del vino",
+                    minlength: "Minimo 2 caracteres"
+                }
+            }
+        });
+    });
+</script>
+
+<header>
+    <h2><%= titulo %></h2>
+</header>
+
+<div class="row">
+    <a href="#"  class="btn btn-success" data-toggle="modal" data-target="#modal">Nuevo</a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Registrar</h5>
+
+            </div>
+            <div class="modal-body">
+                <form id="formulario" method="POST" action="/josselyn/administrar/marca/guardar">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="marcaHelp" placeholder="Ingrese el nombre">
+                        <small id="marcaHelp" class="form-text text-muted">Marca del vino.</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- modals de edision-->
+<div class="modal fade" id="modal_e" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modificar</h5>
+
+            </div>
+            <div class="modal-body">
+                <form id="formulario_e" method="POST" action="/josselyn/administrar/marca/modificar">
+                    <input type="hidden" name="external" value="0" id="external"/>
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre_e" name="nombre" aria-describedby="marcaHelp" placeholder="Ingrese el nombre">
+                        <small id="marcaHelp" class="form-text text-muted">Marca del vino.</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 25px;">
+    <% if (info != '') { %>
+    <div class="alert alert-success">
+        <span><%= info %></span>
+    </div>
+    <% } %>    
+    <% if (error != '') { %>
+    <div class="alert alert-danger">
+        <span><%= error %></span>
+    </div>
+    <% } %>    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nro</th><th>Nombre</th><th>Estado</th><th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% lista.forEach(function(marca, i) { %>
+            <tr>
+                <td><%= (i+1) %></td>
+                <td><%= marca.nombre %></td>
+                <td>
+                    <%= (marca.estado) ? 'Activo' : 'Desactivo' %>
+                </td>
+                <td>
+                    <a href="#" id="<%= (i+1) %>" class="btn btn-primary" data-toggle="modal" data-target="#modal_e">Modificar</a>
+                    <script>
+                        t("#<%= (i+1) %>").click(function() { 
+                            
+                            t("#nombre_e").val("<%= marca.nombre %>");
+                            
+                            t("#external").val("<%= marca.external_id %>");
+                        });
+                    </script>    
+                </td>
+            </tr>
+             <% }); %>
+        </tbody>
+    </table>
+
+</div>
