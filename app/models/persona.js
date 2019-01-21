@@ -46,6 +46,9 @@ module.exports = function (sequelize, Sequelize) {
         models.persona.hasOne(models.cuenta, {
             foreignKey: 'id_persona'
         });
+        models.persona.hasMany(models.venta, {
+            foreignKey: 'id_persona'
+        });
     }
     
     return Persona;

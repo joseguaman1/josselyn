@@ -7,6 +7,9 @@ var cuentaController = new cuenta();
 
 var marca = require('../app/controllers/MarcaController');
 var marcaController = new marca();
+
+var vino = require('../app/controllers/VinoController');
+var vinoController = new vino();
 //you can include all your controllers
 
 var auth = function middleWare(req, res, next) {
@@ -51,10 +54,16 @@ app.post('/josselyn/inicio_sesion/iniciar',
                     failureRedirect: '/josselyn/inicio_sesion',
                     failureFlash: true}
         ));
-
+//marcas
 app.get('/josselyn/administrar/marca', auth, marcaController.verMarca);
 app.post('/josselyn/administrar/marca/guardar', auth, marcaController.guardar);
 app.post('/josselyn/administrar/marca/modificar', auth, marcaController.modificar);
+//vinos
+app.get('/josselyn/administrar/vino', auth, vinoController.verVino);
+app.get('/josselyn/administrar/vino/registro', auth, vinoController.verRegistro);
+app.get('/josselyn/administrar/vino/modificar/:external', auth, vinoController.verEditar);
+app.post('/josselyn/administrar/vino/guardar', auth, vinoController.guardar);
+app.post('/josselyn/administrar/vino/modificar', auth, vinoController.modificar);
 
 //administrar marcas
 

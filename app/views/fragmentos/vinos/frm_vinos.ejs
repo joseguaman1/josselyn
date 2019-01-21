@@ -3,7 +3,7 @@
 </header>
 <div class="box">
     <div class="row" style="margin-bottom: 55px;">
-        <a href="/administrador/vino/registro" class="button">NUEVO</a>
+        <a href="/josselyn/administrar/vino/registro" class="button">NUEVO</a>
     </div>
     <div class="row">
         <%- locals.flash %>
@@ -17,13 +17,13 @@
                 <% lista.forEach(function(vino, i) { %>
                 <tr>
                     <td><%= (i+1) %></td>
-                    <td><img class="rounded" src="<%= vino.foto %>" width="100"/></td>
+                    <td><img class="rounded" src="/img/<%= vino.foto %>" width="100"/></td>
                     <td><%= vino.nombre %></td>
                     <td><%= vino.pais %></td>
-                    <td><%= vino.marca %></td>
+                    <td><%= vino.marca.nombre %></td>
                     <td><%= vino.fecha_creacion %></td>
                     <td>
-                        <a href="/administrador/vino/edicion/<%= vino.external_id %>" class="btn btn-error" >Editar</a>                        
+                        <a href="/josselyn/administrar/vino/modificar/<%= vino.external_id %>" class="btn btn-error" >Editar</a>                        
                     </td>
                 </tr>                    
                 <% }); %>

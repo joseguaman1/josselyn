@@ -1,6 +1,6 @@
 module.exports = function (sequelize, Sequelize) {
     var Marca = sequelize.define('marca', {
-        idMarca: {
+        id: {
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.INTEGER
@@ -20,10 +20,10 @@ module.exports = function (sequelize, Sequelize) {
                 timestamps: false,
                 freezeTableName: true
             });
-    /*Marca.associate = function (models) {
+    Marca.associate = function (models) {
         models.marca.hasMany(models.vino, {
             foreignKey: 'id_marca'
         });
-    };*/
+    };
     return Marca;
 };
