@@ -1,6 +1,44 @@
+<script src="/js/slider.js"></script>
 <article class="box post">
+
     <header>
         <h2>Esta pagina muestra <strong>los mejores vinos!!!</strong> <br />
-            Disfrutala <%= rol %> <%= admin %>...</h2>
+            Disfrutala... <%= rol %> <%= admin %>...</h2>
+        <div id="slider-1" data-aspect-ratio="16:9">
+
+        </div>
     </header>
+
 </article>
+<script>
+    var aux ='{';
+    aux += '"pictures": [';
+    <% lista.forEach(function(vino, i) { %>
+            aux += '{';
+            aux += '"url":"/img/<%= vino.foto %>",';
+            aux += '"external":"<%= vino.external_id %>",';
+            aux += '"alt":"<%= vino.nombre %>",';
+            aux += '"caption":"<%= vino.nombre %> <%= vino.marca.nombre %>",';
+            aux += '"copyright": "josselyn"';
+            aux += '}';
+            <% if (lista.length != (i+1)) {%>
+                    aux += ',';
+            <% } %>        
+    <% }); %>
+    aux += ']}';
+    console.log(aux);
+    var datos = JSON.parse(aux);
+    console.log(datos);
+
+    $(document).ready(function () {
+
+        console.log(datos);
+        $('#slider-1').jsonSlider(
+                {
+
+                    Class: 'jsonslider'
+                }
+        );
+
+    });
+</script>

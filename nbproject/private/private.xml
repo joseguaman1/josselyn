@@ -5,8 +5,12 @@
         <group>
             <file>file:/home/sissysebas/proyectosNode/josselyn/app/models/index.js</file>
             <file>file:/home/sissysebas/proyectosNode/josselyn/config/config.json</file>
+            <file>file:/home/sissysebas/proyectosNode/josselyn/config/routes.js</file>
+            <file>file:/home/sissysebas/proyectosNode/josselyn/app/views/fragmentos/vinos/frm_foto.ejs</file>
+            <file>file:/home/sissysebas/proyectosNode/josselyn/app/views/fragmentos/vinos/frm_vinos.ejs</file>
             <file>file:/home/sissysebas/proyectosNode/josselyn/app/models/rol.js</file>
             <file>file:/home/sissysebas/proyectosNode/josselyn/app/models/persona.js</file>
+            <file>file:/home/sissysebas/proyectosNode/josselyn/app/controllers/VinoController.js</file>
         </group>
     </open-files>
 </project-private>

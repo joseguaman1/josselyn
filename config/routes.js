@@ -10,6 +10,9 @@ var marcaController = new marca();
 
 var vino = require('../app/controllers/VinoController');
 var vinoController = new vino();
+
+var carro = require('../app/controllers/CarritoController');
+var carrito = new carro();
 //you can include all your controllers
 
 var auth = function middleWare(req, res, next) {
@@ -22,13 +25,30 @@ var auth = function middleWare(req, res, next) {
 }
 
 app.get('/josselyn/administrador', auth, function (req, res, next) {
-
-    res.render('plantilla_admin',
+    var models = require('../app/models');
+        var Vino = models.vino;
+        var Marca = models.marca;
+        Vino.findAll({include: {model: Marca}}).then(function (vinos) {
+            if(req.session.carrito == undefined) {
+                req.session.carrito = [];
+                console.log("************");
+            }
+            console.log(req.session.carrito);
+            res.render('plantilla_admin',
             {titulo: "Administracion",
                 fragmento: 'fragmentos/frm_principal_admin',
                 admin: req.user.nombre,
-                rol: req.user.rol
+                rol: req.user.rol,
+                lista: vinos
             });
+            
+
+        }).catch(function (err) {
+            console.log("Error:", err);
+            req.flash('error', 'Hubo un error');
+            res.redirect('/josselyn');
+        });
+    
 
 });
 
@@ -37,7 +57,19 @@ app.get('/josselyn', function (req, res, next) {
     if (req.isAuthenticated()) {
         res.redirect('/josselyn/administrador');
     } else {
-        res.render('plantilla', {titulo: "Principal"});
+        var models = require('../app/models');
+        var Vino = models.vino;
+        var Marca = models.marca;
+        Vino.findAll({include: {model: Marca}}).then(function (vinos) {
+
+            res.render('plantilla', {titulo: "Principal", lista: vinos});
+
+        }).catch(function (err) {
+            console.log("Error:", err);
+            req.flash('error', 'Hubo un error');
+            res.redirect('/josselyn');
+        });
+        
     }
 
 });
@@ -59,12 +91,17 @@ app.get('/josselyn/administrar/marca', auth, marcaController.verMarca);
 app.post('/josselyn/administrar/marca/guardar', auth, marcaController.guardar);
 app.post('/josselyn/administrar/marca/modificar', auth, marcaController.modificar);
 //vinos
-app.get('/josselyn/administrar/vino', auth, vinoController.verVino);
+app.get('/josselyn/administrar/vino', vinoController.verVino);
 app.get('/josselyn/administrar/vino/registro', auth, vinoController.verRegistro);
 app.get('/josselyn/administrar/vino/modificar/:external', auth, vinoController.verEditar);
 app.post('/josselyn/administrar/vino/guardar', auth, vinoController.guardar);
 app.post('/josselyn/administrar/vino/modificar', auth, vinoController.modificar);
+app.get('/josselyn/administrar/vino/foto/:external',  vinoController.verFoto);
+app.post('/josselyn/administrar/vino/foto/subir',  vinoController.guardarImagen);
 
+
+//carrito
+app.get('/josselyn/compra/carrito/:external', auth,  carrito.cargarCarro);
 //administrar marcas
 
 

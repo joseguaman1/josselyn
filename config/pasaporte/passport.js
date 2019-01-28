@@ -12,7 +12,7 @@ module.exports = function (passport, cuenta, persona, rol) {
     // used to deserialize the user
     passport.deserializeUser(function (id, done) {
         Cuenta.findOne({where: {id: id}, include: [{model: Persona, include: {model: Rol}}]}).then(function (cuenta) {
-            if (cuenta) {
+            if (cuenta) {                
                 var userinfo = {
                     id: cuenta.id,
                     id_cuenta: cuenta.external_id,
