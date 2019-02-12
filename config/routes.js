@@ -13,6 +13,9 @@ var vinoController = new vino();
 
 var carro = require('../app/controllers/CarritoController');
 var carrito = new carro();
+
+var venta = require('../app/controllers/VentaController');
+var ventaController = new venta();
 //you can include all your controllers
 
 var auth = function middleWare(req, res, next) {
@@ -101,7 +104,15 @@ app.post('/josselyn/administrar/vino/foto/subir',  vinoController.guardarImagen)
 
 
 //carrito
+app.get('/josselyn/compra/carrito/obtener', auth,  carrito.mostrarCarrito);
+app.get('/josselyn/compra/carrito/quitar/:external', auth,  carrito.quitar_item);
+app.get('/josselyn/compra/carrito/agregar/:external', auth,  carrito.agregar_item);
 app.get('/josselyn/compra/carrito/:external', auth,  carrito.cargarCarro);
+//venta
+app.get('/josselyn/venta', auth,  ventaController.mostrarCarritoFinalizado);
+app.post('/josselyn/venta/guardar', auth,  ventaController.guardar);
+
+
 //administrar marcas
 
 

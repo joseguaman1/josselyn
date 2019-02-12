@@ -9,13 +9,40 @@
         <title><%= titulo %></title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        
+
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="/assets/css/main.css" />
-        
-        
+        <link rel="stylesheet" href="/css/slider_flex.css" />
+        <script>
+            function mostrarNroItems(data) {
+                var cant = 0;
+                var prize = 0;
+                $.each(data, function (i, item) {
+                    cant += item.cant;
+                    prize += item.pt;
+                    console.log(item);
+                });
+                $("#nro_items").html(cant + '  <b>$ ' + prize + '</b>');
+            }
+            function refrescar() {
+                var url = 'http://localhost:7000/josselyn/compra/carrito/obtener';
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data, textStatus, jqXHR) {
+                        mostrarNroItems(data);
+                    }, error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR.responseText);
+                    }
+                });
+            }
+            $(document).ready(function () {
+                refrescar();
+            });
+        </script>
     </head>
     <body class="no-sidebar is-preload">
         <div id="page-wrapper">
@@ -26,7 +53,7 @@
 
                     <!-- Logo -->
                     <h1 id="logo"><a href="/">Vinos Josselyn'g</a></h1>
-                    
+
                     <p>Un sitio para degustar vinos.</p>
 
                     <!-- Nav -->
@@ -44,13 +71,14 @@
                             </li>
                             <% } else { %>
                             <% } %>    
-                                                        
+                            <li><a href="/josselyn/venta">Venta</a></li>
                             <li><a class="icon fa-user" href="/josselyn/cerrar_sesion"><span>Cerrar sesion</span></a></li>
-                            
-                            
-                        </ul>
-                    </nav>
 
+
+                        </ul>
+
+                    </nav>
+                    <span class="icon fa-cart-plus"><b>  Nro Items    </b><span id="nro_items">0</span></span>
                 </div>
             </section>
 
@@ -58,9 +86,9 @@
             <section id="main">
                 <div class="container">
                     <div id="content">
-                        
+
                         <%- include(fragmento) %>
-                        
+
                     </div>
                 </div>
             </section>
@@ -144,7 +172,7 @@
         </div>
 
         <!-- Scripts -->
-        
+
         <script src="/assets/js/jquery.dropotron.min.js"></script>
         <script src="/assets/js/browser.min.js"></script>
         <script src="/assets/js/breakpoints.min.js"></script>
